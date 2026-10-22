@@ -73,6 +73,12 @@ def init_db():
                     storage_details TEXT
                 );
             """)
+
+            # Speeds up the /prices lookup by crop and market, ordered by date
+            cur.execute("""
+                CREATE INDEX IF NOT EXISTS idx_market_prices_crop_market_date
+                ON market_prices (crop_id, market_id, date);
+            """)
             conn.commit()
             cur.close()
             conn.close()
