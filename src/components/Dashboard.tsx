@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, lazy, Suspense } from 'react';
 import {
   LayoutDashboard,
   TrendingUp,
@@ -17,14 +17,16 @@ import {
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
-import PriceDashboard from './features/PriceDashboard';
-import WeatherAlerts from './features/WeatherAlerts';
-import FarmDataInput from './features/FarmDataInput';
-import MarketExplorer from './features/MarketExplorer';
-import ProfitDashboard from './features/ProfitDashboard';
-import AIAssistant from './features/AIAssistant';
-import NotificationsPanel from './features/NotificationsPanel';
-import OverviewDashboard from './features/OverviewDashboard';
+
+// Load each tab on demand so recharts and the speech SDK stay out of the initial bundle
+const PriceDashboard = lazy(() => import('./features/PriceDashboard'));
+const WeatherAlerts = lazy(() => import('./features/WeatherAlerts'));
+const FarmDataInput = lazy(() => import('./features/FarmDataInput'));
+const MarketExplorer = lazy(() => import('./features/MarketExplorer'));
+const ProfitDashboard = lazy(() => import('./features/ProfitDashboard'));
+const AIAssistant = lazy(() => import('./features/AIAssistant'));
+const NotificationsPanel = lazy(() => import('./features/NotificationsPanel'));
+const OverviewDashboard = lazy(() => import('./features/OverviewDashboard'));
 
 interface DashboardProps {
   onLogout: () => void;
@@ -198,7 +200,13 @@ export default function Dashboard({ onLogout }: DashboardProps) {
 
         {/* Content Area */}
         <main className="p-4 lg:p-8">
-          {renderContent()}
+          <Suspense
+            fallback={
+              <div className="flex justify-center py-20 text-gray-500 dark:text-gray-400">Loading...</div>
+            }
+          >
+            {renderContent()}
+          </Suspense>
         </main>
       </div>
     </div>
