@@ -4,6 +4,7 @@ from flask_cors import CORS
 from db import get_db_connection
 import os
 import json
+import time
 import requests
 from openai import AzureOpenAI
 from dotenv import load_dotenv
@@ -233,6 +234,8 @@ AI_TOOLS = [
 ]
 
 
+_speech_token_cache = {}
+
 @app.route('/api/ai/speech-token', methods=['GET'])
 def get_speech_token():
     try:
@@ -247,12 +250,19 @@ def get_speech_token():
             'Content-Type': 'application/x-www-form-urlencoded'
         }
 
+        # Azure speech tokens are valid for 10 minutes; reuse one for 9 to skip a round trip
+        cached = _speech_token_cache.get(speech_region)
+        if cached and cached[1] > time.time():
+            return jsonify({"token": cached[0], "region": speech_region})
+
         response = requests.post(
             f'https://{speech_region}.api.cognitive.microsoft.com/sts/v1.0/issueToken',
-            headers=headers
+            headers=headers,
+            timeout=10
         )
 
         if response.status_code == 200:
+            _speech_token_cache[speech_region] = (response.text, time.time() + 540)
             return jsonify({
                 "token": response.text,
                 "region": speech_region
