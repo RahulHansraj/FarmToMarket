@@ -124,15 +124,13 @@ def get_prices():
         rows = cur.fetchall()
         
         # Format response
-        data = []
-        for row in rows:
-            data.append({
-                "date": row[0].strftime('%Y-%m-%d'),
-                "price": float(row[1]),
-                "is_predicted": row[2],
-                "crop": row[3],
-                "market": row[4]
-            })
+        data = [{
+            "date": row[0].isoformat(),
+            "price": float(row[1]),
+            "is_predicted": row[2],
+            "crop": row[3],
+            "market": row[4]
+        } for row in rows]
             
         cur.close()
         conn.close()
@@ -152,15 +150,13 @@ def get_markets():
         cur.execute("SELECT id, name, location, lat, lng, spoilage_risk FROM markets")
         rows = cur.fetchall()
         
-        markets = []
-        for row in rows:
-            markets.append({
-                "id": row[0],
-                "name": row[1],
-                "location": row[2],
-                "coordinates": {"lat": float(row[3]), "lng": float(row[4])},
-                "spoilageRisk": row[5]
-            })
+        markets = [{
+            "id": row[0],
+            "name": row[1],
+            "location": row[2],
+            "coordinates": {"lat": float(row[3]), "lng": float(row[4])},
+            "spoilageRisk": row[5]
+        } for row in rows]
             
         cur.close()
         conn.close()
