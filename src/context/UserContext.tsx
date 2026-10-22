@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, useCallback, useMemo, ReactNode } from 'react';
 
 interface FarmData {
   crop: string;
@@ -25,28 +25,30 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [confirmedMarkets, setConfirmedMarkets] = useState<any[]>([]);
   const [notifications, setNotifications] = useState<any[]>([]);
 
-  const addConfirmedMarket = (market: any) => {
+  const addConfirmedMarket = useCallback((market: any) => {
     setConfirmedMarkets(prev => [...prev, market]);
-  };
+  }, []);
 
-  const addNotification = (notification: any) => {
+  const addNotification = useCallback((notification: any) => {
     setNotifications(prev => [...prev, { ...notification, id: Date.now().toString() }]);
-  };
+  }, []);
 
-  const clearNotification = (id: string) => {
+  const clearNotification = useCallback((id: string) => {
     setNotifications(prev => prev.filter(n => n.id !== id));
-  };
+  }, []);
+
+  const value = useMemo(() => ({
+    farmData,
+    setFarmData,
+    confirmedMarkets,
+    addConfirmedMarket,
+    notifications,
+    addNotification,
+    clearNotification,
+  }), [farmData, confirmedMarkets, notifications, addConfirmedMarket, addNotification, clearNotification]);
 
   return (
-    <UserContext.Provider value={{
-      farmData,
-      setFarmData,
-      confirmedMarkets,
-      addConfirmedMarket,
-      notifications,
-      addNotification,
-      clearNotification,
-    }}>
+    <UserContext.Provider value={value}>
       {children}
     </UserContext.Provider>
   );
