@@ -52,6 +52,14 @@ export default defineConfig({
   build: {
     target: 'esnext',
     outDir: 'build',
+    rollupOptions: {
+      output: {
+        // Keep React in its own long-lived chunk so app deploys don't bust its cache
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom'],
+        },
+      },
+    },
   },
   server: {
     port: 3000,
