@@ -190,13 +190,18 @@ def get_crops():
         print(e)
         return jsonify({"error": str(e)}), 500
 
-# Initialize Azure OpenAI Client
+_openai_client = None
+
+# Initialize Azure OpenAI Client once and reuse it (keeps its HTTP connection pool warm)
 def get_openai_client():
-    return AzureOpenAI(
-        api_key=os.getenv("AZURE_OPENAI_API_KEY"),
-        api_version="2024-02-15-preview",
-        azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
-    )
+    global _openai_client
+    if _openai_client is None:
+        _openai_client = AzureOpenAI(
+            api_key=os.getenv("AZURE_OPENAI_API_KEY"),
+            api_version="2024-02-15-preview",
+            azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
+        )
+    return _openai_client
 
 @app.route('/api/ai/speech-token', methods=['GET'])
 def get_speech_token():
