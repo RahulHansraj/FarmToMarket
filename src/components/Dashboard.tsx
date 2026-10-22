@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import {
   LayoutDashboard,
   TrendingUp,
@@ -46,7 +46,7 @@ export default function Dashboard({ onLogout }: DashboardProps) {
   const { theme, toggleTheme } = useTheme();
   const { language, setLanguage, t } = useLanguage();
 
-  const menuItems = [
+  const menuItems = useMemo(() => [
     { id: 'overview', label: t('dashboard'), icon: LayoutDashboard },
     { id: 'prices', label: t('prices'), icon: TrendingUp },
     { id: 'weather', label: t('weather'), icon: Cloud },
@@ -55,7 +55,7 @@ export default function Dashboard({ onLogout }: DashboardProps) {
     { id: 'profit', label: t('profit'), icon: DollarSign },
     { id: 'ai', label: t('aiAssistant'), icon: MessageSquare },
     { id: 'notifications', label: t('notifications'), icon: Bell },
-  ];
+  ], [t]);
 
   const renderContent = () => {
     switch (activeTab) {
