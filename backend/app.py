@@ -24,9 +24,7 @@ def index():
 
 @app.route('/signup', methods=['POST'])
 def signup():
-    print("Received signup request")
     data = request.json
-    print(f"Signup Data: {data}")
     name = data.get('name')
     email = data.get('email')
     phone = data.get('phone')
@@ -61,9 +59,7 @@ def signup():
 
 @app.route('/login', methods=['POST'])
 def login():
-    print("Received login request")
     data = request.json
-    print(f"Login Data: {data}")
     email = data.get('email')
     password = data.get('password')
 
