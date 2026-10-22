@@ -42,6 +42,8 @@ def signup():
         cur = conn.cursor()
         cur.execute("SELECT id FROM users WHERE email = %s", (email,))
         if cur.fetchone():
+            cur.close()
+            conn.close()
             return jsonify({"error": "Email already registered"}), 409
         
         password_hash = generate_password_hash(password)
