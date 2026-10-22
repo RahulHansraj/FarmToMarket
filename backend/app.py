@@ -3,6 +3,9 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 from db import get_db_connection
 import os
+import json
+import requests
+from openai import AzureOpenAI
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -186,12 +189,6 @@ def get_crops():
     except Exception as e:
         print(e)
         return jsonify({"error": str(e)}), 500
-
-# ... existing code ...
-
-import requests
-from openai import AzureOpenAI
-import json
 
 # Initialize Azure OpenAI Client
 def get_openai_client():
