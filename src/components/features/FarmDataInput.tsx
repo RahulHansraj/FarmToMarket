@@ -2,6 +2,17 @@ import { useState } from 'react';
 import { Save, MapPin, Calendar, Package, Wheat, Loader } from 'lucide-react';
 import { useUser } from '../../context/UserContext';
 
+// Sorted once at module load instead of on every render
+const CROP_OPTIONS = [
+  'Wheat', 'Rice (Basmati)', 'Rice (Common)', 'Maize', 'Jowar', 'Bajra', 'Ragi',
+  'Bengal Gram (Chana)', 'Red Gram (Tur)', 'Green Gram (Moong)', 'Black Gram (Urad)', 'Lentil (Masur)',
+  'Groundnut', 'Mustard', 'Soybean', 'Sunflower', 'Sesame',
+  'Tomato', 'Onion', 'Potato', 'Brinjal', 'Cabbage', 'Cauliflower', 'Okra', 'Spinach', 'Carrot', 'Green Chilli', 'Ginger', 'Garlic',
+  'Apple', 'Banana', 'Mango', 'Orange', 'Grapes', 'Papaya', 'Pomegranate',
+  'Sugarcane', 'Cotton', 'Jute', 'Coconut',
+  'Turmeric', 'Coriander', 'Cumin', 'Black Pepper'
+].sort();
+
 export default function FarmDataInput() {
   const { farmData, setFarmData } = useUser();
   const [formData, setFormData] = useState({
@@ -109,13 +120,7 @@ export default function FarmDataInput() {
               className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
             >
               <option value="">Select Crop</option>
-              {['Wheat', 'Rice (Basmati)', 'Rice (Common)', 'Maize', 'Jowar', 'Bajra', 'Ragi',
-                'Bengal Gram (Chana)', 'Red Gram (Tur)', 'Green Gram (Moong)', 'Black Gram (Urad)', 'Lentil (Masur)',
-                'Groundnut', 'Mustard', 'Soybean', 'Sunflower', 'Sesame',
-                'Tomato', 'Onion', 'Potato', 'Brinjal', 'Cabbage', 'Cauliflower', 'Okra', 'Spinach', 'Carrot', 'Green Chilli', 'Ginger', 'Garlic',
-                'Apple', 'Banana', 'Mango', 'Orange', 'Grapes', 'Papaya', 'Pomegranate',
-                'Sugarcane', 'Cotton', 'Jute', 'Coconut',
-                'Turmeric', 'Coriander', 'Cumin', 'Black Pepper'].sort().map(c => (
+              {CROP_OPTIONS.map(c => (
                   <option key={c} value={c}>{c}</option>
                 ))}
             </select>
