@@ -85,10 +85,6 @@ export default function AIAssistant() {
 
       recognizerRef.current = recognizer;
 
-      recognizer.recognizing = (s, e) => {
-        // Real-time interim results
-      };
-
       recognizer.recognized = (s, e) => {
         if (e.result.reason === SpeechSDK.ResultReason.RecognizedSpeech) {
           setInput(prev => {
