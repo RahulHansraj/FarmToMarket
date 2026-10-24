@@ -3,6 +3,9 @@ import { Send, Mic, MicOff, Volume2, Bot, User, Loader2, Languages } from 'lucid
 import { useUser } from '../../context/UserContext';
 import * as SpeechSDK from 'microsoft-cognitiveservices-speech-sdk';
 
+// Flask server URL; override with VITE_API_URL for deployed builds
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 // Language Configuration
 const SUPPORTED_LANGUAGES = [
   { code: 'en-IN', name: 'English', voice: 'en-IN-NeerjaNeural' },
@@ -56,7 +59,7 @@ export default function AIAssistant() {
   }, []);
 
   const getTokenOrThrow = async () => {
-    const res = await fetch('http://localhost:5000/api/ai/speech-token');
+    const res = await fetch(`${API_BASE}/api/ai/speech-token`);
     if (!res.ok) throw new Error('Failed to get speech token');
     return await res.json();
   };
@@ -201,7 +204,7 @@ export default function AIAssistant() {
     setIsLoading(true);
 
     try {
-      const res = await fetch('http://localhost:5000/api/ai/chat', {
+      const res = await fetch(`${API_BASE}/api/ai/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
