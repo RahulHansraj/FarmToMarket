@@ -60,6 +60,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
       <div className="absolute top-6 right-6 flex gap-3">
         <button
           onClick={toggleTheme}
+          aria-label="Toggle dark mode"
           className="p-3 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
         >
           {theme === 'light' ? (
@@ -71,6 +72,8 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
         <div className="relative">
           <button
             onClick={() => setShowLangMenu(!showLangMenu)}
+            aria-label="Change language"
+            aria-expanded={showLangMenu}
             className="p-3 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
           >
             <Languages className="w-5 h-5 text-gray-700 dark:text-gray-300" />
