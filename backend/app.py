@@ -203,6 +203,40 @@ def get_openai_client():
         )
     return _openai_client
 
+# Tools (functions) the AI can call; built once at import time
+AI_TOOLS = [
+    {
+        "type": "function",
+        "function": {
+            "name": "update_farm_data",
+            "description": "Update farm data (crop, quantity, location) in the database based on user input",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "crop_name": {
+                        "type": "string",
+                        "description": "Name of the crop (e.g., Wheat, Rice)"
+                    },
+                    "quantity": {
+                        "type": "number",
+                        "description": "Quantity in kg or quintals (convert to kg)"
+                    },
+                    "location": {
+                        "type": "string",
+                        "description": "Location of the farm"
+                    },
+                    "harvest_date": {
+                        "type": "string",
+                        "description": "Harvest date in YYYY-MM-DD format"
+                    }
+                },
+                "required": ["crop_name"]
+            }
+        }
+    }
+]
+
+
 @app.route('/api/ai/speech-token', methods=['GET'])
 def get_speech_token():
     try:
@@ -245,39 +279,6 @@ def chat_with_ai():
 
     client = get_openai_client()
 
-    # Define tools (functions) the AI can call
-    tools = [
-        {
-            "type": "function",
-            "function": {
-                "name": "update_farm_data",
-                "description": "Update farm data (crop, quantity, location) in the database based on user input",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "crop_name": {
-                            "type": "string",
-                            "description": "Name of the crop (e.g., Wheat, Rice)"
-                        },
-                        "quantity": {
-                            "type": "number",
-                            "description": "Quantity in kg or quintals (convert to kg)"
-                        },
-                        "location": {
-                            "type": "string",
-                            "description": "Location of the farm"
-                        },
-                        "harvest_date": {
-                            "type": "string",
-                            "description": "Harvest date in YYYY-MM-DD format"
-                        }
-                    },
-                    "required": ["crop_name"]
-                }
-            }
-        }
-    ]
-
     try:
         # 1. Call OpenAI
         base_system_message = "You are a helpful agricultural assistant. You can update farm data in the database if the user provides details like crop name, quantity, and location. If data is missing (e.g. location), ask for it before updating. Be concise."
@@ -293,7 +294,7 @@ def chat_with_ai():
         response = client.chat.completions.create(
             model="gpt-35-turbo", # OR your deployment name from env if variable
             messages=messages,
-            tools=tools,
+            tools=AI_TOOLS,
             tool_choice="auto"
         )
 
