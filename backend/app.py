@@ -321,6 +321,8 @@ def chat_with_ai():
             if function_name == "update_farm_data":
                 # Execute the database update
                 conn = get_db_connection()
+                if not conn:
+                    return jsonify({"error": "Database connection failed"}), 503
                 if conn:
                     cur = conn.cursor()
                     
