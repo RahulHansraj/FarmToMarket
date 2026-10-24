@@ -217,9 +217,9 @@ export default function AIAssistant() {
         })
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
 
-      if (data.response) {
+      if (res.ok && data.response) {
         const aiResponse = {
           role: 'assistant',
           content: data.response,
