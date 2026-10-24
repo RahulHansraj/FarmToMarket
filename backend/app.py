@@ -25,7 +25,7 @@ def index():
 
 @app.route('/signup', methods=['POST'])
 def signup():
-    data = request.json
+    data = request.get_json(silent=True) or {}
     name = data.get('name')
     email = data.get('email')
     phone = data.get('phone')
@@ -62,7 +62,7 @@ def signup():
 
 @app.route('/login', methods=['POST'])
 def login():
-    data = request.json
+    data = request.get_json(silent=True) or {}
     email = data.get('email')
     password = data.get('password')
 
@@ -277,7 +277,7 @@ def get_speech_token():
 
 @app.route('/api/ai/chat', methods=['POST'])
 def chat_with_ai():
-    data = request.json
+    data = request.get_json(silent=True) or {}
     user_message = data.get('message')
     user_id = data.get('user_id', 1) # Default to admin for now
     system_prompt_addition = data.get('system_prompt_addition', '')
