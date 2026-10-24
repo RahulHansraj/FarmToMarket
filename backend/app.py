@@ -61,6 +61,8 @@ def signup():
         return jsonify({"message": "User created successfully", "user_id": user_id}), 201
     except Exception as e:
         print(e)
+        conn.rollback()
+        conn.close()
         return jsonify({"error": str(e)}), 500
 
 @app.route('/login', methods=['POST'])
@@ -89,6 +91,8 @@ def login():
             return jsonify({"error": "Invalid email or password"}), 401
     except Exception as e:
         print(e)
+        conn.rollback()
+        conn.close()
         return jsonify({"error": str(e)}), 500
 
 @app.route('/prices', methods=['GET'])
@@ -140,6 +144,8 @@ def get_prices():
         return jsonify(data), 200
     except Exception as e:
         print(e)
+        conn.rollback()
+        conn.close()
         return jsonify({"error": str(e)}), 500
 
 @app.route('/markets', methods=['GET'])
@@ -168,6 +174,8 @@ def get_markets():
         return resp, 200
     except Exception as e:
         print(e)
+        conn.rollback()
+        conn.close()
         return jsonify({"error": str(e)}), 500
 
 @app.route('/crops', methods=['GET'])
@@ -190,6 +198,8 @@ def get_crops():
         return resp, 200
     except Exception as e:
         print(e)
+        conn.rollback()
+        conn.close()
         return jsonify({"error": str(e)}), 500
 
 OPENAI_DEPLOYMENT = os.getenv("AZURE_OPENAI_DEPLOYMENT", "gpt-35-turbo")
