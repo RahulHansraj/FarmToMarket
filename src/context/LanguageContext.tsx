@@ -136,7 +136,10 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export function LanguageProvider({ children }: { children: ReactNode }) {
   // Read the saved language during init to avoid rendering English first
   const [language, setLanguage] = useState<Language>(
-    () => (localStorage.getItem('language') as Language) || 'en'
+    () => {
+      const saved = localStorage.getItem('language') as Language;
+      return saved in translations ? saved : 'en';
+    }
   );
 
   useEffect(() => {
