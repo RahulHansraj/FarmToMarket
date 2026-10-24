@@ -11,7 +11,8 @@ def get_db_connection():
             database=os.environ['DB_NAME'],
             user=os.environ['DB_USER'],
             password=os.environ['DB_PASSWORD'],
-            port=os.environ['DB_PORT']
+            port=os.environ['DB_PORT'],
+            connect_timeout=5
         )
         return conn
     except Exception as e:
