@@ -150,6 +150,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                   </label>
                   <input
                     name="name"
+                    autoComplete="name"
                     type="text"
                     required
                     className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
@@ -161,6 +162,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                   </label>
                   <input
                     name="phone"
+                    autoComplete="tel"
                     type="tel"
                     required
                     className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
@@ -174,6 +176,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
               </label>
               <input
                 name="email"
+                autoComplete="email"
                 type="email"
                 required
                 className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
@@ -185,6 +188,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
               </label>
               <input
                 name="password"
+                autoComplete={isSignup ? 'new-password' : 'current-password'}
                 type="password"
                 required
                 className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
