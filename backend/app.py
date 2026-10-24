@@ -34,6 +34,9 @@ def signup():
     if not all([name, email, password]):
         return jsonify({"error": "Missing required fields"}), 400
 
+    if len(password) < 6:
+        return jsonify({"error": "Password must be at least 6 characters"}), 400
+
     conn = get_db_connection()
     if not conn:
         return jsonify({"error": "Database connection failed"}), 500
