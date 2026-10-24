@@ -27,7 +27,7 @@ def index():
 def signup():
     data = request.get_json(silent=True) or {}
     name = data.get('name')
-    email = data.get('email')
+    email = (data.get('email') or '').strip().lower()
     phone = data.get('phone')
     password = data.get('password')
 
@@ -63,7 +63,7 @@ def signup():
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json(silent=True) or {}
-    email = data.get('email')
+    email = (data.get('email') or '').strip().lower()
     password = data.get('password')
 
     if not all([email, password]):
