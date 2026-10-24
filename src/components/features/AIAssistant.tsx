@@ -336,6 +336,7 @@ export default function AIAssistant() {
                 : 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300'
                 }`}
               title={isListening ? "Stop listening" : "Start voice input"}
+              aria-label={isListening ? "Stop listening" : "Start voice input"}
             >
               {isListening ? <MicOff className="w-6 h-6" /> : <Mic className="w-6 h-6" />}
             </button>
@@ -353,6 +354,7 @@ export default function AIAssistant() {
             <button
               onClick={handleSend}
               disabled={!input.trim() || isLoading}
+              aria-label="Send message"
               className="p-3 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-600 text-white hover:from-purple-600 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg transform active:scale-95"
             >
               <Send className="w-6 h-6" />
@@ -363,6 +365,7 @@ export default function AIAssistant() {
                 onClick={stopSpeaking}
                 className="p-3 rounded-xl bg-blue-500 hover:bg-blue-600 text-white animate-pulse shadow-md"
                 title="Stop speaking"
+                aria-label="Stop speaking"
               >
                 <Volume2 className="w-6 h-6" />
               </button>
