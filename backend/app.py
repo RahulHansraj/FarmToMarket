@@ -192,6 +192,7 @@ def get_crops():
         print(e)
         return jsonify({"error": str(e)}), 500
 
+OPENAI_DEPLOYMENT = os.getenv("AZURE_OPENAI_DEPLOYMENT", "gpt-35-turbo")
 _openai_client = None
 
 # Initialize Azure OpenAI Client once and reuse it (keeps its HTTP connection pool warm)
@@ -303,7 +304,7 @@ def chat_with_ai():
         ]
 
         response = client.chat.completions.create(
-            model="gpt-35-turbo", # OR your deployment name from env if variable
+            model=OPENAI_DEPLOYMENT,
             messages=messages,
             tools=AI_TOOLS,
             tool_choice="auto"
@@ -361,7 +362,7 @@ def chat_with_ai():
 
                     # Get final response from AI
                     second_response = client.chat.completions.create(
-                        model="gpt-35-turbo",
+                        model=OPENAI_DEPLOYMENT,
                         messages=messages
                     )
                     return jsonify({"response": second_response.choices[0].message.content})
