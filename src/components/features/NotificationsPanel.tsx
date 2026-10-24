@@ -102,11 +102,17 @@ export default function NotificationsPanel() {
     ? notifications
     : notifications.filter((n: any) => n.type === activeFilter);
 
+  // Count every type in a single pass instead of filtering the list once per type
+  const typeCounts = notifications.reduce((acc: Record<string, number>, n: any) => {
+    acc[n.type] = (acc[n.type] || 0) + 1;
+    return acc;
+  }, {});
+
   const notificationTypes = [
     { id: 'all', label: 'All', count: notifications.length },
-    { id: 'price', label: 'Price Alerts', count: notifications.filter((n: any) => n.type === 'price').length },
-    { id: 'weather', label: 'Weather', count: notifications.filter((n: any) => n.type === 'weather').length },
-    { id: 'demand', label: 'High Demand', count: notifications.filter((n: any) => n.type === 'demand').length },
+    { id: 'price', label: 'Price Alerts', count: typeCounts.price || 0 },
+    { id: 'weather', label: 'Weather', count: typeCounts.weather || 0 },
+    { id: 'demand', label: 'High Demand', count: typeCounts.demand || 0 },
   ];
 
   return (
