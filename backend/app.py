@@ -340,7 +340,7 @@ def chat_with_ai():
                     # Default values if missing
                     qty = function_args.get('quantity', 0)
                     loc = function_args.get('location', 'Unknown')
-                    date = function_args.get('harvest_date', '2024-01-01')
+                    date = function_args.get('harvest_date')  # stored as NULL when not given
 
                     cur.execute("""
                         INSERT INTO farm_data (user_id, crop_id, quantity_kg, location, harvest_date)
