@@ -341,7 +341,7 @@ export default function AIAssistant() {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+              onKeyDown={(e) => e.key === 'Enter' && !e.nativeEvent.isComposing && !isLoading && handleSend()}
               placeholder={isListening ? `Listening (${selectedLang.name})...` : `Type in ${selectedLang.name} or speak...`}
               className="flex-1 px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all placeholder-gray-400"
               disabled={isListening}
