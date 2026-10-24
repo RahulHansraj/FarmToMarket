@@ -101,6 +101,7 @@ export default function Dashboard({ onLogout }: DashboardProps) {
             {menuItems.map((item) => (
               <button
                 key={item.id}
+                aria-current={activeTab === item.id ? 'page' : undefined}
                 onClick={() => {
                   setActiveTab(item.id);
                   setSidebarOpen(false);
@@ -134,6 +135,7 @@ export default function Dashboard({ onLogout }: DashboardProps) {
           <div className="px-4 py-4 flex items-center justify-between">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
+              aria-label={sidebarOpen ? 'Close menu' : 'Open menu'}
               className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 lg:hidden"
             >
               {sidebarOpen ? (
@@ -150,6 +152,7 @@ export default function Dashboard({ onLogout }: DashboardProps) {
             <div className="flex items-center gap-3">
               <button
                 onClick={toggleTheme}
+                aria-label="Toggle dark mode"
                 className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
               >
                 {theme === 'light' ? (
@@ -162,6 +165,8 @@ export default function Dashboard({ onLogout }: DashboardProps) {
               <div className="relative">
                 <button
                   onClick={() => setShowLangMenu(!showLangMenu)}
+                  aria-label="Change language"
+                  aria-expanded={showLangMenu}
                   className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
                 >
                   <Languages className="w-5 h-5 text-gray-700 dark:text-gray-300" />
