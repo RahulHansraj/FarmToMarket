@@ -18,6 +18,13 @@ const SUPPORTED_LANGUAGES = [
   { code: 'or-IN', name: 'Odia (ଓଡ଼ିଆ)', voice: 'or-IN-SubhasiniNeural' },
 ];
 
+const QUICK_PROMPTS = [
+  'I harvested 500kg of Wheat today',
+  'What is the price of Rice in Delhi?',
+  'Update my location to Punjab',
+  'Do I have any weather alerts?',
+];
+
 export default function AIAssistant() {
   const [messages, setMessages] = useState<any[]>([
     {
@@ -382,14 +389,9 @@ export default function AIAssistant() {
       <div className="px-2">
         <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-3 uppercase tracking-wider">Try asking:</h3>
         <div className="flex flex-wrap gap-3">
-          {[
-            'I harvested 500kg of Wheat today',
-            'What is the price of Rice in Delhi?',
-            'Update my location to Punjab',
-            'Do I have any weather alerts?',
-          ].map((action, index) => (
+          {QUICK_PROMPTS.map((action) => (
             <button
-              key={index}
+              key={action}
               onClick={() => setInput(action)}
               className="px-4 py-2 rounded-full bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:border-purple-300 dark:hover:border-purple-700 hover:bg-purple-50 dark:hover:bg-purple-900/20 hover:text-purple-700 dark:hover:text-purple-300 transition-all text-sm shadow-sm"
             >
