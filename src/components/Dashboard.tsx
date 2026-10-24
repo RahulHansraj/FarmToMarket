@@ -16,7 +16,7 @@ import {
   X,
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
-import { useLanguage } from '../context/LanguageContext';
+import { useLanguage, LANGUAGES } from '../context/LanguageContext';
 
 // Load each tab on demand so recharts and the speech SDK stay out of the initial bundle
 const PriceDashboard = lazy(() => import('./features/PriceDashboard'));
@@ -31,15 +31,6 @@ const OverviewDashboard = lazy(() => import('./features/OverviewDashboard'));
 interface DashboardProps {
   onLogout: () => void;
 }
-
-const languages = [
-  { code: 'en', name: 'English' },
-  { code: 'hi', name: 'हिंदी' },
-  { code: 'ta', name: 'தமிழ்' },
-  { code: 'te', name: 'తెలుగు' },
-  { code: 'kn', name: 'ಕನ್ನಡ' },
-  { code: 'ml', name: 'മലയാളം' },
-];
 
 export default function Dashboard({ onLogout }: DashboardProps) {
   const [activeTab, setActiveTab] = useState('overview');
@@ -177,11 +168,11 @@ export default function Dashboard({ onLogout }: DashboardProps) {
                 </button>
                 {showLangMenu && (
                   <div className="absolute right-0 mt-2 w-48 rounded-xl bg-white dark:bg-gray-800 shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
-                    {languages.map((lang) => (
+                    {LANGUAGES.map((lang) => (
                       <button
                         key={lang.code}
                         onClick={() => {
-                          setLanguage(lang.code as any);
+                          setLanguage(lang.code);
                           setShowLangMenu(false);
                         }}
                         className={`w-full px-4 py-3 text-left hover:bg-green-50 dark:hover:bg-gray-700 transition-colors ${

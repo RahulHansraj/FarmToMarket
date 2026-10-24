@@ -1,6 +1,15 @@
 import { createContext, useContext, useState, useEffect, useCallback, useMemo, ReactNode } from 'react';
 
-type Language = 'en' | 'hi' | 'ta' | 'te' | 'kn' | 'ml';
+export type Language = 'en' | 'hi' | 'ta' | 'te' | 'kn' | 'ml';
+
+export const LANGUAGES: { code: Language; name: string }[] = [
+  { code: 'en', name: 'English' },
+  { code: 'hi', name: 'हिंदी' },
+  { code: 'ta', name: 'தமிழ்' },
+  { code: 'te', name: 'తెలుగు' },
+  { code: 'kn', name: 'ಕನ್ನಡ' },
+  { code: 'ml', name: 'മലയാളം' },
+];
 
 interface LanguageContextType {
   language: Language;

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Sun, Moon, Languages, Sprout } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
-import { useLanguage } from '../context/LanguageContext';
+import { useLanguage, LANGUAGES } from '../context/LanguageContext';
 
 interface LoginPageProps {
   onLogin: () => void;
@@ -12,15 +12,6 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
   const { theme, toggleTheme } = useTheme();
   const { language, setLanguage, t } = useLanguage();
   const [showLangMenu, setShowLangMenu] = useState(false);
-
-  const languages = [
-    { code: 'en', name: 'English' },
-    { code: 'hi', name: 'हिंदी' },
-    { code: 'ta', name: 'தமிழ்' },
-    { code: 'te', name: 'తెలుగు' },
-    { code: 'kn', name: 'ಕನ್ನಡ' },
-    { code: 'ml', name: 'മലയാളം' },
-  ];
 
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -91,11 +82,11 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
           </button>
           {showLangMenu && (
             <div className="absolute right-0 mt-2 w-48 rounded-xl bg-white dark:bg-gray-800 shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden z-10">
-              {languages.map((lang) => (
+              {LANGUAGES.map((lang) => (
                 <button
                   key={lang.code}
                   onClick={() => {
-                    setLanguage(lang.code as any);
+                    setLanguage(lang.code);
                     setShowLangMenu(false);
                   }}
                   className={`w-full px-4 py-3 text-left hover:bg-green-50 dark:hover:bg-gray-700 transition-colors ${language === lang.code ? 'bg-green-100 dark:bg-gray-700' : ''
