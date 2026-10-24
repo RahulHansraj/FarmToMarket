@@ -160,7 +160,9 @@ def get_markets():
             
         cur.close()
         conn.close()
-        return jsonify(markets), 200
+        resp = jsonify(markets)
+        resp.headers['Cache-Control'] = 'public, max-age=300'
+        return resp, 200
     except Exception as e:
         print(e)
         return jsonify({"error": str(e)}), 500
@@ -180,7 +182,9 @@ def get_crops():
             
         cur.close()
         conn.close()
-        return jsonify(crops), 200
+        resp = jsonify(crops)
+        resp.headers['Cache-Control'] = 'public, max-age=300'
+        return resp, 200
     except Exception as e:
         print(e)
         return jsonify({"error": str(e)}), 500
