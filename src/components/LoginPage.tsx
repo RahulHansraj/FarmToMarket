@@ -14,11 +14,13 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
   const [showLangMenu, setShowLangMenu] = useState(false);
 
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
     setLoading(true);
 
     const formData = new FormData(e.target as HTMLFormElement);
@@ -41,14 +43,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
       }
 
       if (isSignup) {
-        // Auto login after signup or ask to login? 
-        // For simplicity, let's just log them in or switch to login mode.
-        // The user returned successfully. Let's switch to login for now or just login.
-        // Actually, let's just log them in directly if signup returns token/user (my backend returns user_id).
-        // For now, let's just switch to login view and show success message, or if implemented, auto-login.
-        // Reviewing my backend: signup returns {message, user_id}. login returns {message, user}.
-        // So for signup, I'll alert success and switch to login.
-        alert('Account created successfully! Please login.');
+        setSuccess('Account created successfully! Please login.');
         setIsSignup(false);
       } else {
         onLogin();
@@ -140,6 +135,11 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
             {error && (
               <div className="p-3 text-sm text-red-500 bg-red-100 dark:bg-red-900/30 rounded-lg">
                 {error}
+              </div>
+            )}
+            {success && (
+              <div className="p-3 text-sm text-green-700 bg-green-100 dark:text-green-300 dark:bg-green-900/30 rounded-lg">
+                {success}
               </div>
             )}
             {isSignup && (
