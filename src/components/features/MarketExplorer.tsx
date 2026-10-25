@@ -169,10 +169,13 @@ export default function MarketExplorer() {
     });
   }, [markets, marketPrices]);
 
-  const filteredMarkets = displayMarkets.filter(market =>
-    market.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    market.location.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredMarkets = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    return displayMarkets.filter(market =>
+      market.name.toLowerCase().includes(query) ||
+      market.location.toLowerCase().includes(query)
+    );
+  }, [displayMarkets, searchQuery]);
 
   // Get active market object
   const activeMarket = selectedMarketId ? displayMarkets.find(m => m.id === selectedMarketId) : null;
