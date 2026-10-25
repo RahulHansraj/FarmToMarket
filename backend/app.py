@@ -211,6 +211,7 @@ def get_crops():
         return jsonify({"error": str(e)}), 500
 
 OPENAI_DEPLOYMENT = os.getenv("AZURE_OPENAI_DEPLOYMENT", "gpt-35-turbo")
+MAX_CHAT_MESSAGE_LENGTH = 2000
 _openai_client = None
 
 # Initialize Azure OpenAI Client once and reuse it (keeps its HTTP connection pool warm)
@@ -306,6 +307,9 @@ def chat_with_ai():
 
     if not user_message:
         return jsonify({"error": "Message is required"}), 400
+
+    if len(user_message) > MAX_CHAT_MESSAGE_LENGTH:
+        return jsonify({"error": f"Message must be under {MAX_CHAT_MESSAGE_LENGTH} characters"}), 400
 
     client = get_openai_client()
 
