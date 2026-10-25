@@ -18,6 +18,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     localStorage.setItem('theme', theme);
     document.documentElement.classList.toggle('dark', theme === 'dark');
+    // Lets native controls like scrollbars and date pickers match the theme
+    document.documentElement.style.colorScheme = theme;
   }, [theme]);
 
   const toggleTheme = useCallback(() => {
