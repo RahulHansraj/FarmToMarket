@@ -23,6 +23,9 @@ interface PriceData {
   priceHistory: { date: string; price: number | null; predicted: number | null }[];
 }
 
+// Reused for every chart label instead of building a formatter per point
+const SHORT_DATE = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' });
+
 export default function MarketExplorer() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedMarketId, setSelectedMarketId] = useState<number | null>(null); // Store ID only to prevent stale state
@@ -93,7 +96,7 @@ export default function MarketExplorer() {
           const nearForecast = predictions.slice(0, 15); // Show next 15 days
 
           const chartData = recentHistory.map((p: any) => ({
-            date: new Date(p.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+            date: SHORT_DATE.format(new Date(p.date)),
             price: p.price,
             predicted: null
           }));
@@ -107,7 +110,7 @@ export default function MarketExplorer() {
 
           nearForecast.forEach((p: any) => {
             chartData.push({
-              date: new Date(p.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+              date: SHORT_DATE.format(new Date(p.date)),
               price: null,
               predicted: p.price
             });
