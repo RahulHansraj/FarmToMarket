@@ -278,7 +278,9 @@ def get_speech_token():
         # Azure speech tokens are valid for 10 minutes; reuse one for 9 to skip a round trip
         cached = _speech_token_cache.get(speech_region)
         if cached and cached[1] > time.time():
-            return jsonify({"token": cached[0], "region": speech_region})
+            resp = jsonify({"token": cached[0], "region": speech_region})
+            resp.headers['Cache-Control'] = 'no-store'
+            return resp
 
         response = requests.post(
             f'https://{speech_region}.api.cognitive.microsoft.com/sts/v1.0/issueToken',
@@ -288,10 +290,12 @@ def get_speech_token():
 
         if response.status_code == 200:
             _speech_token_cache[speech_region] = (response.text, time.time() + 540)
-            return jsonify({
+            resp = jsonify({
                 "token": response.text,
                 "region": speech_region
             })
+            resp.headers['Cache-Control'] = 'no-store'
+            return resp
         else:
             return jsonify({"error": "Failed to get token"}), response.status_code
     except Exception as e:
