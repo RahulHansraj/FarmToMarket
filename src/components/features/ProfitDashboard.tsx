@@ -2,31 +2,32 @@ import { DollarSign, TrendingUp, Calendar, MapPin } from 'lucide-react';
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useUser } from '../../context/UserContext';
 
+// Sample chart data, defined once outside the component
+const MONTHLY_PROFITS = [
+  { month: 'Sep', profit: 45000, cost: 20000 },
+  { month: 'Oct', profit: 52000, cost: 22000 },
+  { month: 'Nov', profit: 48000, cost: 21000 },
+  { month: 'Dec', profit: 55000, cost: 23000 },
+  { month: 'Jan', profit: 58000, cost: 24000 },
+  { month: 'Feb', profit: 62000, cost: 25000 },
+];
+
+const PROFIT_BREAKDOWN = [
+  { name: 'Crop Sales', value: 180000, color: '#10b981' },
+  { name: 'Transport Costs', value: 25000, color: '#f59e0b' },
+  { name: 'Storage Costs', value: 15000, color: '#ef4444' },
+  { name: 'Net Profit', value: 140000, color: '#3b82f6' },
+];
+
+const MARKET_COMPARISON = [
+  { market: 'Azadpur', profit: 52000 },
+  { market: 'Vashi', profit: 48500 },
+  { market: 'Koyambedu', profit: 45200 },
+  { market: 'Yeshwanthpur', profit: 46500 },
+];
+
 export default function ProfitDashboard() {
   const { confirmedMarkets, farmData } = useUser();
-
-  const monthlyProfits = [
-    { month: 'Sep', profit: 45000, cost: 20000 },
-    { month: 'Oct', profit: 52000, cost: 22000 },
-    { month: 'Nov', profit: 48000, cost: 21000 },
-    { month: 'Dec', profit: 55000, cost: 23000 },
-    { month: 'Jan', profit: 58000, cost: 24000 },
-    { month: 'Feb', profit: 62000, cost: 25000 },
-  ];
-
-  const profitBreakdown = [
-    { name: 'Crop Sales', value: 180000, color: '#10b981' },
-    { name: 'Transport Costs', value: 25000, color: '#f59e0b' },
-    { name: 'Storage Costs', value: 15000, color: '#ef4444' },
-    { name: 'Net Profit', value: 140000, color: '#3b82f6' },
-  ];
-
-  const marketComparison = [
-    { market: 'Azadpur', profit: 52000 },
-    { market: 'Vashi', profit: 48500 },
-    { market: 'Koyambedu', profit: 45200 },
-    { market: 'Yeshwanthpur', profit: 46500 },
-  ];
 
   const totalProfit = confirmedMarkets.reduce((sum, market) => sum + (market.finalProfit || 0), 0);
   const avgProfit = confirmedMarkets.length > 0 ? totalProfit / confirmedMarkets.length : 0;
@@ -82,7 +83,7 @@ export default function ProfitDashboard() {
       <div className="bg-white dark:bg-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-800">
         <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-6">6-Month Profit Trend</h3>
         <ResponsiveContainer width="100%" height={350}>
-          <BarChart data={monthlyProfits}>
+          <BarChart data={MONTHLY_PROFITS}>
             <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.1} />
             <XAxis dataKey="month" stroke="#9ca3af" />
             <YAxis stroke="#9ca3af" />
@@ -109,7 +110,7 @@ export default function ProfitDashboard() {
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
-                data={profitBreakdown}
+                data={PROFIT_BREAKDOWN}
                 cx="50%"
                 cy="50%"
                 labelLine={false}
@@ -118,7 +119,7 @@ export default function ProfitDashboard() {
                 fill="#8884d8"
                 dataKey="value"
               >
-                {profitBreakdown.map((entry, index) => (
+                {PROFIT_BREAKDOWN.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
               </Pie>
@@ -133,7 +134,7 @@ export default function ProfitDashboard() {
             </PieChart>
           </ResponsiveContainer>
           <div className="grid grid-cols-2 gap-3 mt-4">
-            {profitBreakdown.map((item, index) => (
+            {PROFIT_BREAKDOWN.map((item, index) => (
               <div key={index} className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }}></div>
                 <div>
@@ -149,7 +150,7 @@ export default function ProfitDashboard() {
         <div className="bg-white dark:bg-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-800">
           <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-6">Market Performance Comparison</h3>
           <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={marketComparison} layout="vertical">
+            <BarChart data={MARKET_COMPARISON} layout="vertical">
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.1} />
               <XAxis type="number" stroke="#9ca3af" />
               <YAxis dataKey="market" type="category" stroke="#9ca3af" />
