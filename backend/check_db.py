@@ -10,7 +10,8 @@ def check_data():
     if conn:
         try:
             cur = conn.cursor()
-            cur.execute("SELECT * FROM users")
+            # Leave out password hashes so they never end up in terminal logs
+            cur.execute("SELECT id, name, email, phone FROM users")
             rows = cur.fetchall()
             print(f"Connection successful. Found {len(rows)} users in the database.")
             for row in rows:
