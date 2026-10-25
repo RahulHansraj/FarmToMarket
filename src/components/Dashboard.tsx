@@ -1,4 +1,4 @@
-import { useState, useMemo, lazy, Suspense } from 'react';
+import { useState, useEffect, useMemo, lazy, Suspense } from 'react';
 import {
   LayoutDashboard,
   TrendingUp,
@@ -38,6 +38,16 @@ export default function Dashboard({ onLogout }: DashboardProps) {
   const [showLangMenu, setShowLangMenu] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const { language, setLanguage, t } = useLanguage();
+
+  // Close the language menu with the Escape key
+  useEffect(() => {
+    if (!showLangMenu) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setShowLangMenu(false);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [showLangMenu]);
 
   const menuItems = useMemo(() => [
     { id: 'overview', label: t('dashboard'), icon: LayoutDashboard },
