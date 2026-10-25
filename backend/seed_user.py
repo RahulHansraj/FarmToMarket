@@ -1,3 +1,4 @@
+import os
 from db import get_db_connection
 from werkzeug.security import generate_password_hash
 
@@ -8,7 +9,7 @@ def seed_user():
             cur = conn.cursor()
             
             email = "admin@example.com"
-            password = "password123"
+            password = os.getenv("SEED_ADMIN_PASSWORD", "password123")
             name = "Admin User"
             phone = "1234567890"
             
