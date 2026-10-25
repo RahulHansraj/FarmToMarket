@@ -195,6 +195,12 @@ export default function PriceDashboard() {
 
   return (
     <div className="space-y-6">
+      {error && (
+        <div className="flex items-center gap-2 p-4 rounded-xl bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800">
+          <AlertCircle className="w-5 h-5" />
+          <span>{error}</span>
+        </div>
+      )}
       {/* Filters */}
       <div className="bg-white dark:bg-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-800">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
