@@ -65,11 +65,13 @@ export default function MarketExplorer() {
   // Fetch Prices for Selected Crop
   useEffect(() => {
     if (!selectedCrop) return;
+    const controller = new AbortController();
 
     const fetchPrices = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`/api/prices?crop=${encodeURIComponent(selectedCrop)}`);
+        const res = await fetch(`/api/prices?crop=${encodeURIComponent(selectedCrop)}`, { signal: controller.signal });
+        if (!res.ok) throw new Error(`Request failed with status ${res.status}`);
         const data = await res.json();
 
         // Process data by market
@@ -126,13 +128,15 @@ export default function MarketExplorer() {
 
         setMarketPrices(pricesByMarket);
 
-      } catch (err) {
+      } catch (err: any) {
+        if (err.name === 'AbortError') return;
         console.error("Error fetching prices:", err);
       } finally {
         setLoading(false);
       }
     };
     fetchPrices();
+    return () => controller.abort();
   }, [selectedCrop]);
 
 
