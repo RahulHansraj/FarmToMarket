@@ -14,7 +14,7 @@ def test_login():
     
     print("Testing Signup...")
     try:
-        response = requests.post(f"{BASE_URL}/signup", json=signup_data)
+        response = requests.post(f"{BASE_URL}/signup", json=signup_data, timeout=10)
         print(f"Signup Status: {response.status_code}")
         print(f"Signup Response: {response.text}")
     except Exception as e:
@@ -28,7 +28,7 @@ def test_login():
 
     print("\nTesting Login...")
     try:
-        response = requests.post(f"{BASE_URL}/login", json=login_data)
+        response = requests.post(f"{BASE_URL}/login", json=login_data, timeout=10)
         print(f"Login Status: {response.status_code}")
         print(f"Login Response: {response.text}")
     except Exception as e:
