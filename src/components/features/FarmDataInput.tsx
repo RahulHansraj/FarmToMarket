@@ -89,7 +89,8 @@ export default function FarmDataInput() {
         console.error("Geolocation error:", error);
         setGettingLocation(false);
         alert("Unable to retrieve your location. Please check permissions.");
-      }
+      },
+      { timeout: 15000, maximumAge: 300000 }
     );
   };
 
