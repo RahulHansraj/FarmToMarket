@@ -115,7 +115,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
 
           <div className="flex gap-2 mb-6">
             <button
-              onClick={() => setIsSignup(false)}
+              onClick={() => { setIsSignup(false); setError(''); }}
               className={`flex-1 py-3 rounded-xl font-semibold transition-all duration-300 ${!isSignup
                   ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg'
                   : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
@@ -124,7 +124,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
               {t('login')}
             </button>
             <button
-              onClick={() => setIsSignup(true)}
+              onClick={() => { setIsSignup(true); setError(''); }}
               className={`flex-1 py-3 rounded-xl font-semibold transition-all duration-300 ${isSignup
                   ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg'
                   : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
