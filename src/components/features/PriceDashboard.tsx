@@ -67,12 +67,13 @@ export default function PriceDashboard() {
   // Fetch Price Data when filters change
   useEffect(() => {
     if (!selectedCrop) return;
+    const controller = new AbortController();
 
     const fetchPrices = async () => {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(`/api/prices?crop=${encodeURIComponent(selectedCrop)}`);
+        const res = await fetch(`/api/prices?crop=${encodeURIComponent(selectedCrop)}`, { signal: controller.signal });
         if (!res.ok) throw new Error(`Request failed with status ${res.status}`);
         const data: PricePoint[] = await res.json();
 
@@ -166,6 +167,7 @@ export default function PriceDashboard() {
         setMarketStats(stats);
 
       } catch (err: any) {
+        if (err.name === 'AbortError') return;
         console.error("Failed to fetch prices:", err);
         setError("Error loading data");
       } finally {
@@ -174,6 +176,7 @@ export default function PriceDashboard() {
     };
 
     fetchPrices();
+    return () => controller.abort();
   }, [selectedCrop, selectedMarket, timeRange, markets]);
 
   const historicalPoints = chartData.filter(d => d.price !== null);
