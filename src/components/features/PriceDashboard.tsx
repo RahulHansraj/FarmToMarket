@@ -28,6 +28,9 @@ interface ChartPoint {
   predictedPrice: number | null;
 }
 
+// Reused for every chart label instead of building a formatter per point
+const SHORT_DATE = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' });
+
 const TIME_RANGES = ['7d', '1m', '3m', '6m'];
 
 export default function PriceDashboard() {
@@ -106,8 +109,7 @@ export default function PriceDashboard() {
         let lastHistoryPrice: number | null = null;
 
         filteredRawData.forEach(d => {
-          const dateObj = new Date(d.date);
-          const displayDate = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+          const displayDate = SHORT_DATE.format(new Date(d.date));
 
           if (!d.is_predicted) {
             lastHistoryPrice = d.price;
