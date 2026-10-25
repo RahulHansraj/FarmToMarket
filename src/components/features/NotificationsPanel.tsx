@@ -2,6 +2,21 @@ import { useState, useEffect } from 'react';
 import { Bell, TrendingUp, Cloud, DollarSign, Truck, AlertTriangle, X, Check } from 'lucide-react';
 import { useUser } from '../../context/UserContext';
 
+const TYPE_ICONS: Record<string, typeof Bell> = {
+  price: TrendingUp,
+  weather: Cloud,
+  profit: DollarSign,
+  demand: DollarSign,
+  transport: Truck,
+  spoilage: AlertTriangle,
+};
+
+const PRIORITY_COLORS: Record<string, string> = {
+  urgent: 'red',
+  high: 'orange',
+  medium: 'yellow',
+};
+
 export default function NotificationsPanel() {
   const { notifications, addNotification, clearNotification } = useUser();
   const [activeFilter, setActiveFilter] = useState('all');
@@ -67,36 +82,8 @@ export default function NotificationsPanel() {
     }
   }, []);
 
-  const getIcon = (type: string) => {
-    switch (type) {
-      case 'price':
-        return TrendingUp;
-      case 'weather':
-        return Cloud;
-      case 'profit':
-      case 'demand':
-        return DollarSign;
-      case 'transport':
-        return Truck;
-      case 'spoilage':
-        return AlertTriangle;
-      default:
-        return Bell;
-    }
-  };
-
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case 'urgent':
-        return 'red';
-      case 'high':
-        return 'orange';
-      case 'medium':
-        return 'yellow';
-      default:
-        return 'blue';
-    }
-  };
+  const getIcon = (type: string) => TYPE_ICONS[type] || Bell;
+  const getPriorityColor = (priority: string) => PRIORITY_COLORS[priority] || 'blue';
 
   const filteredNotifications = activeFilter === 'all'
     ? notifications
