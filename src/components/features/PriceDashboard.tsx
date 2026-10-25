@@ -73,6 +73,7 @@ export default function PriceDashboard() {
       setError(null);
       try {
         const res = await fetch(`/api/prices?crop=${encodeURIComponent(selectedCrop)}`);
+        if (!res.ok) throw new Error(`Request failed with status ${res.status}`);
         const data: PricePoint[] = await res.json();
 
         // 1. Chart Data Processing
