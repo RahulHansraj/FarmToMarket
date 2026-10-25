@@ -201,7 +201,7 @@ export default function AIAssistant() {
 
     const userMessage = {
       role: 'user',
-      content: input,
+      content: input.trim(),
       timestamp: new Date(),
     };
 
