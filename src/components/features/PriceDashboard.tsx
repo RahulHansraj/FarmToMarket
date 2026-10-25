@@ -28,6 +28,8 @@ interface ChartPoint {
   predictedPrice: number | null;
 }
 
+const TIME_RANGES = ['7d', '1m', '3m', '6m'];
+
 export default function PriceDashboard() {
   const [selectedCrop, setSelectedCrop] = useState('');
   const [selectedMarket, setSelectedMarket] = useState('');
@@ -223,7 +225,7 @@ export default function PriceDashboard() {
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Time Range</label>
             <div className="flex gap-2">
-              {['7d', '1m', '3m', '6m'].map((range) => (
+              {TIME_RANGES.map((range) => (
                 <button
                   key={range}
                   onClick={() => setTimeRange(range)}
