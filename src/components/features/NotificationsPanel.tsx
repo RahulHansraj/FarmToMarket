@@ -2,6 +2,60 @@ import { useState, useEffect } from 'react';
 import { Bell, TrendingUp, Cloud, DollarSign, Truck, AlertTriangle, X, Check } from 'lucide-react';
 import { useUser } from '../../context/UserContext';
 
+// Demo notifications shown until real alerts are wired up
+const getSampleNotifications = () => [
+  {
+    type: 'price',
+    title: 'Price Alert: Wheat prices increased!',
+    message: 'Wheat prices at Azadpur Mandi increased by 3.2% to ₹4,850/quintal. This is a good time to sell.',
+    timestamp: new Date(Date.now() - 3600000),
+    priority: 'high',
+    actionable: true,
+    marketId: 1,
+  },
+  {
+    type: 'weather',
+    title: 'Heavy Rainfall Warning',
+    message: 'Heavy rainfall expected on Feb 12-13. Consider harvesting early or ensuring proper drainage.',
+    timestamp: new Date(Date.now() - 7200000),
+    priority: 'high',
+    actionable: false,
+  },
+  {
+    type: 'profit',
+    title: 'Best Selling Day Prediction',
+    message: 'Our AI predicts February 15 as the best day to sell your wheat for maximum profit (₹5,250/quintal).',
+    timestamp: new Date(Date.now() - 10800000),
+    priority: 'medium',
+    actionable: true,
+  },
+  {
+    type: 'transport',
+    title: 'Transport Cost Reduced',
+    message: 'Transport cost to Vashi Market reduced by 15%. New cost: ₹7,225.',
+    timestamp: new Date(Date.now() - 14400000),
+    priority: 'medium',
+    actionable: false,
+  },
+  {
+    type: 'demand',
+    title: 'High Demand Alert! 🔥',
+    message: 'Urgent: Market demand for wheat increased drastically at Azadpur Mandi. Profit potential: ₹58,000. Act now!',
+    timestamp: new Date(Date.now() - 1800000),
+    priority: 'urgent',
+    actionable: true,
+    marketId: 1,
+  },
+  {
+    type: 'spoilage',
+    title: 'Spoilage Risk Alert',
+    message: 'Weather conditions may increase spoilage risk. Consider selling within 5 days or improving storage.',
+    timestamp: new Date(Date.now() - 21600000),
+    priority: 'medium',
+    actionable: false,
+  },
+];
+
 const TYPE_ICONS: Record<string, typeof Bell> = {
   price: TrendingUp,
   weather: Cloud,
@@ -23,62 +77,9 @@ export default function NotificationsPanel() {
 
   // Simulate adding notifications
   useEffect(() => {
-    const sampleNotifications = [
-      {
-        type: 'price',
-        title: 'Price Alert: Wheat prices increased!',
-        message: 'Wheat prices at Azadpur Mandi increased by 3.2% to ₹4,850/quintal. This is a good time to sell.',
-        timestamp: new Date(Date.now() - 3600000),
-        priority: 'high',
-        actionable: true,
-        marketId: 1,
-      },
-      {
-        type: 'weather',
-        title: 'Heavy Rainfall Warning',
-        message: 'Heavy rainfall expected on Feb 12-13. Consider harvesting early or ensuring proper drainage.',
-        timestamp: new Date(Date.now() - 7200000),
-        priority: 'high',
-        actionable: false,
-      },
-      {
-        type: 'profit',
-        title: 'Best Selling Day Prediction',
-        message: 'Our AI predicts February 15 as the best day to sell your wheat for maximum profit (₹5,250/quintal).',
-        timestamp: new Date(Date.now() - 10800000),
-        priority: 'medium',
-        actionable: true,
-      },
-      {
-        type: 'transport',
-        title: 'Transport Cost Reduced',
-        message: 'Transport cost to Vashi Market reduced by 15%. New cost: ₹7,225.',
-        timestamp: new Date(Date.now() - 14400000),
-        priority: 'medium',
-        actionable: false,
-      },
-      {
-        type: 'demand',
-        title: 'High Demand Alert! 🔥',
-        message: 'Urgent: Market demand for wheat increased drastically at Azadpur Mandi. Profit potential: ₹58,000. Act now!',
-        timestamp: new Date(Date.now() - 1800000),
-        priority: 'urgent',
-        actionable: true,
-        marketId: 1,
-      },
-      {
-        type: 'spoilage',
-        title: 'Spoilage Risk Alert',
-        message: 'Weather conditions may increase spoilage risk. Consider selling within 5 days or improving storage.',
-        timestamp: new Date(Date.now() - 21600000),
-        priority: 'medium',
-        actionable: false,
-      },
-    ];
-
     // Add initial notifications if empty
     if (notifications.length === 0) {
-      sampleNotifications.forEach(notif => addNotification(notif));
+      getSampleNotifications().forEach(notif => addNotification(notif));
     }
   }, []);
 
