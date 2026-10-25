@@ -166,7 +166,10 @@ def get_markets():
             "id": row[0],
             "name": row[1],
             "location": row[2],
-            "coordinates": {"lat": float(row[3]), "lng": float(row[4])},
+            "coordinates": {
+                "lat": float(row[3]) if row[3] is not None else None,
+                "lng": float(row[4]) if row[4] is not None else None
+            },
             "spoilageRisk": row[5]
         } for row in rows]
             
