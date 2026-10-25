@@ -127,8 +127,11 @@ export default function AIAssistant() {
 
     if (recognizerRef.current) {
       try {
-        recognizerRef.current.stopContinuousRecognitionAsync(() => {
-          // Stopped
+        const recognizer = recognizerRef.current;
+        recognizerRef.current = null;
+        recognizer.stopContinuousRecognitionAsync(() => {
+          // Release the microphone once recognition has stopped
+          recognizer.close();
         }, (err) => {
           console.error("Error stopping recognition:", err);
         });
