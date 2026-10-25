@@ -54,8 +54,10 @@ export default function FarmDataInput() {
           const { latitude, longitude } = position.coords;
           // Reverse geocoding using OpenStreetMap Nominatim API
           const response = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`,
+            { headers: { 'Accept-Language': navigator.language || 'en' } }
           );
+          if (!response.ok) throw new Error(`Geocoding failed with status ${response.status}`);
           const data = await response.json();
 
           if (data && data.display_name) {
