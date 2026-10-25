@@ -1,6 +1,10 @@
 from db import get_db_connection
 from datetime import date, timedelta
+import os
 import random
+
+# Fixed seed so every run produces the same sample prices
+random.seed(int(os.getenv("SEED", "42")))
 
 def seed_db():
     conn = get_db_connection()
