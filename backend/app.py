@@ -338,7 +338,10 @@ def chat_with_ai():
         if response_message.tool_calls:
             tool_call = response_message.tool_calls[0]
             function_name = tool_call.function.name
-            function_args = json.loads(tool_call.function.arguments)
+            try:
+                function_args = json.loads(tool_call.function.arguments)
+            except json.JSONDecodeError:
+                return jsonify({"error": "AI returned invalid tool arguments"}), 502
 
             if function_name == "update_farm_data":
                 # Execute the database update
