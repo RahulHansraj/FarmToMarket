@@ -18,6 +18,9 @@ interface UserContextType {
   clearNotification: (id: string) => void;
 }
 
+// Date.now() alone repeats when several notifications are added at once
+let nextNotificationId = 0;
+
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserProvider({ children }: { children: ReactNode }) {
@@ -30,7 +33,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const addNotification = useCallback((notification: any) => {
-    setNotifications(prev => [...prev, { ...notification, id: Date.now().toString() }]);
+    setNotifications(prev => [...prev, { ...notification, id: `${Date.now()}-${nextNotificationId++}` }]);
   }, []);
 
   const clearNotification = useCallback((id: string) => {
