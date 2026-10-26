@@ -33,6 +33,21 @@ const SHORT_DATE = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'nume
 
 const TIME_RANGES = ['7d', '1m', '3m', '6m'];
 
+// Export the chart points as a CSV file the user can open in a spreadsheet
+const downloadCsv = (points: ChartPoint[], crop: string, market: string) => {
+  const rows = [
+    ['date', 'historical_price', 'predicted_price'],
+    ...points.map(p => [p.fullDate, p.price ?? '', p.predictedPrice ?? ''])
+  ];
+  const csv = rows.map(row => row.join(',')).join('\n');
+  const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `${crop}-${market}-prices.csv`.replace(/\s+/g, '_');
+  link.click();
+  URL.revokeObjectURL(url);
+};
+
 export default function PriceDashboard() {
   const [selectedCrop, setSelectedCrop] = useState('');
   const [selectedMarket, setSelectedMarket] = useState('');
@@ -316,6 +331,14 @@ export default function PriceDashboard() {
               {chartData.length} Data Points Loaded. (Green: Historical, Blue: Predicted)
             </p>
           </div>
+          <button
+            onClick={() => downloadCsv(chartData, selectedCrop, selectedMarket)}
+            disabled={chartData.length === 0}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            <Download className="w-4 h-4" />
+            Export CSV
+          </button>
         </div>
 
         {/* FORCED HEIGHT with inline style to avoid CSS issues */}
