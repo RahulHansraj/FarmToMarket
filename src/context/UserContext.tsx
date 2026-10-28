@@ -16,6 +16,7 @@ interface UserContextType {
   notifications: any[];
   addNotification: (notification: any) => void;
   clearNotification: (id: string) => void;
+  clearAllNotifications: () => void;
 }
 
 // Date.now() alone repeats when several notifications are added at once
@@ -40,6 +41,10 @@ export function UserProvider({ children }: { children: ReactNode }) {
     setNotifications(prev => prev.filter(n => n.id !== id));
   }, []);
 
+  const clearAllNotifications = useCallback(() => {
+    setNotifications([]);
+  }, []);
+
   const value = useMemo(() => ({
     farmData,
     setFarmData,
@@ -48,7 +53,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
     notifications,
     addNotification,
     clearNotification,
-  }), [farmData, confirmedMarkets, notifications, addConfirmedMarket, addNotification, clearNotification]);
+    clearAllNotifications,
+  }), [farmData, confirmedMarkets, notifications, addConfirmedMarket, addNotification, clearNotification, clearAllNotifications]);
 
   return (
     <UserContext.Provider value={value}>

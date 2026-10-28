@@ -72,7 +72,7 @@ const PRIORITY_COLORS: Record<string, string> = {
 };
 
 export default function NotificationsPanel() {
-  const { notifications, addNotification, clearNotification } = useUser();
+  const { notifications, addNotification, clearNotification, clearAllNotifications } = useUser();
   const [activeFilter, setActiveFilter] = useState('all');
 
   // Simulate adding notifications
@@ -112,6 +112,14 @@ export default function NotificationsPanel() {
             <h2 className="text-3xl font-bold mb-2">Notifications</h2>
             <p className="text-blue-100">Stay updated with real-time alerts and important updates</p>
           </div>
+          {notifications.length > 0 && (
+            <button
+              onClick={clearAllNotifications}
+              className="px-4 py-2 rounded-lg bg-white/20 hover:bg-white/30 text-white text-sm font-medium transition-colors"
+            >
+              Clear all
+            </button>
+          )}
           <div className="relative">
             <Bell className="w-12 h-12" />
             {notifications.length > 0 && (
